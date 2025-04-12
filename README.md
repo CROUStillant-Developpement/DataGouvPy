@@ -10,7 +10,7 @@ Ce dépôt contient le code source d'une librairie interne de CROUStillant en Py
 # 📖 • Sommaire
 
 - [🚀 • Présentation](#--présentation)
-- [⚙️ • Installation](#--installation)
+- [⚙️ • Installation](#%EF%B8%8F--installation)
 - [💻 • Développement](#--développement)
 - [📄 • Utilisation](#--utilisation)
 - [📃 • Crédits](#--crédits)
