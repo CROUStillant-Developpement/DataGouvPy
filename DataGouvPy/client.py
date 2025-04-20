@@ -122,7 +122,8 @@ class Datasets:
                 d = await self.client.update_dataset_resource(
                     dataset_id=dataset_id, 
                     resource_id=resource_id,
-                    data=dataset
+                    data=dataset,
+                    resource_name=resource_name
                 )
 
                 await self.client.update_dataset_resource_metadata(
