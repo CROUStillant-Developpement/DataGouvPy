@@ -103,7 +103,8 @@ class Datasets:
         self, 
         dataset_id: str, 
         resource_id: str, 
-        dataset: pd.DataFrame
+        dataset: pd.DataFrame, 
+        resource_name: str, 
     ) -> list[dict]:
         """
         Update a dataset resource in the data.gouv.fr API.
@@ -111,6 +112,7 @@ class Datasets:
         :param dataset_id: ID of the dataset
         :param resource_id: ID of the resource to update
         :param dataset: DataFrame to be uploaded as a resource
+        :param resource_name: Name of the resource file
         :return: JSON response from the API
         """
         try:
@@ -118,7 +120,8 @@ class Datasets:
                 return await self.client.update_dataset_resource(
                     dataset_id=dataset_id, 
                     resource_id=resource_id, 
-                    data=dataset
+                    data=dataset,
+                    resource_name=resource_name
                 )
         except asyncio.TimeoutError:
             raise DataGouvAPIError
