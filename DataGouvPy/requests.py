@@ -79,14 +79,13 @@ class DataGouv:
             raise DataGouvAPIError
 
 
-    async def update_dataset_resource(self, dataset_id: str, resource_id: str, data: pd.DataFrame, resource_name: str) -> list[dict]:
+    async def update_dataset_resource(self, dataset_id: str, resource_id: str, data: pd.DataFrame) -> list[dict]:
         """
         Update a dataset resource in the data.gouv.fr API.
 
         :param dataset_id: ID of the dataset to update the resource in
         :param resource_id: ID of the resource to update
         :param data: DataFrame to be uploaded as a resource
-        :param resource_name: Name of the resource file
         :return: JSON response from the API
         """
         csv_buffer = io.StringIO()
@@ -94,10 +93,6 @@ class DataGouv:
         csv_buffer.seek(0)
 
         form = FormData()
-        form.add_field(
-            name="filename",
-            value=f"{resource_name}.csv"
-        )
         form.add_field(
             name="file",
             value=csv_buffer,
