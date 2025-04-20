@@ -24,7 +24,7 @@ class DataGouv:
         """
         self.client = DataGouvRequests(
             session=session, 
-            headers={
+            __headers__={
                 "X-API-KEY": api_key,
                 **__headers__
             }
