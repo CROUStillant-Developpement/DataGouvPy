@@ -1,6 +1,6 @@
 __title__ = "DataGouvPy"
 __author__ = "CROUStillant Développement"
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 __description__ = "A Python wrapper for the data.gouv.fr API, providing easy access to public data in France."
 
 __headers__ = {

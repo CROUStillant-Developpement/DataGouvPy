@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as readme:
     
 setup(
     name="DataGouvPy",
-    version="1.0.1",
+    version="1.1.0",
     license="Apache-2.0",
     author="CROUStillant Développement",
     keywords="data.gouv.fr, crous, crous api, crous api python, crous api wrapper",
@@ -23,7 +23,7 @@ setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.13",
+    python_requires=">=3.11",
     install_requires=[
         "aiohttp>=3.11.16",
         "async-timeout>=5.0.1",
