@@ -44,7 +44,21 @@ class Datasets:
         :param client: DataGouvRequests object
         """
         self.client = client
-        
+
+
+    async def get_dataset(self, dataset_id: str) -> dict:
+        """
+        Get a dataset from the data.gouv.fr API.
+
+        :param dataset_id: ID of the dataset to retrieve
+        :return: JSON response from the API
+        """
+        try:
+            async with timeout(timeout_time):
+                return await self.client.get_dataset(dataset_id=dataset_id)
+        except asyncio.TimeoutError:
+            raise DataGouvAPIError
+
 
     async def upload_resource(
         self, 
@@ -80,6 +94,31 @@ class Datasets:
                         "title": resource_name,
                         "type": "main"
                     }
+                )
+        except asyncio.TimeoutError:
+            raise DataGouvAPIError
+
+
+    async def update_dataset_resource(
+        self, 
+        dataset_id: str, 
+        resource_id: str, 
+        dataset: pd.DataFrame
+    ) -> list[dict]:
+        """
+        Update a dataset resource in the data.gouv.fr API.
+
+        :param dataset_id: ID of the dataset
+        :param resource_id: ID of the resource to update
+        :param dataset: DataFrame to be uploaded as a resource
+        :return: JSON response from the API
+        """
+        try:
+            async with timeout(timeout_time):
+                return await self.client.update_dataset_resource(
+                    dataset_id=dataset_id, 
+                    resource_id=resource_id, 
+                    data=dataset
                 )
         except asyncio.TimeoutError:
             raise DataGouvAPIError

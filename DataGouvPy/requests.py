@@ -21,6 +21,27 @@ class DataGouv:
         self.__headers__ = __headers__
 
 
+    async def get_dataset(self, dataset_id: str) -> dict:
+        """
+        Get a dataset from the data.gouv.fr API.
+
+        :param dataset_id: ID of the dataset to retrieve
+        :return: JSON response from the API
+        """
+        try:
+            async with self.session.get(
+                url=f"{__baseURL__}/datasets/{dataset_id}/",
+                headers=self.__headers__
+            ) as response:
+                json: dict = await response.json()
+                if response.status != 200:
+                    raise DataGouvAPIError
+                else:
+                    return json
+        except ContentTypeError:
+            raise DataGouvAPIError
+
+
     async def upload_dataset_resource(self, dataset_id: str, name: str, data: pd.DataFrame) -> list[dict]:
         """
         Upload a dataset resource to the data.gouv.fr API.
@@ -51,6 +72,42 @@ class DataGouv:
             ) as response:
                 json: list[dict] = await response.json()
                 if response.status != 201:
+                    raise DataGouvAPIError
+                else:
+                    return json
+        except ContentTypeError:
+            raise DataGouvAPIError
+
+
+    async def update_dataset_resource(self, dataset_id: str, resource_id: str, data: pd.DataFrame) -> list[dict]:
+        """
+        Update a dataset resource in the data.gouv.fr API.
+
+        :param dataset_id: ID of the dataset to update the resource in
+        :param resource_id: ID of the resource to update
+        :param data: DataFrame to be uploaded as a resource
+        :return: JSON response from the API
+        """
+        csv_buffer = io.StringIO()
+        data.to_csv(csv_buffer, index=False)
+        csv_buffer.seek(0)
+
+        form = FormData()
+        form.add_field(
+            name="file",
+            value=csv_buffer,
+            filename=f"{resource_id}.csv",
+            content_type="application/vnd.ms-excel"
+        )
+
+        try:
+            async with self.session.post(
+                url=f"{__baseURL__}/datasets/{dataset_id}/resources/{resource_id}/upload/",
+                headers=self.__headers__,
+                data=form
+            ) as response:
+                json: list[dict] = await response.json()
+                if response.status != 200:
                     raise DataGouvAPIError
                 else:
                     return json
